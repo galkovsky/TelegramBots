@@ -28,8 +28,8 @@ public class DefaultBot extends AbilityBot {
   }
 
   @Override
-  public int creatorId() {
-    return 1337;
+  public Long creatorId() {
+    return 1337L;
   }
 
   public Ability defaultAbility() {

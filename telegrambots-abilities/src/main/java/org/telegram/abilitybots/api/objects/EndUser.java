@@ -20,7 +20,7 @@ import static org.apache.commons.lang3.StringUtils.isEmpty;
  */
 public final class EndUser implements Serializable {
   @JsonProperty("id")
-  private final Integer id;
+  private final Long id;
   @JsonProperty("firstName")
   private final String firstName;
   @JsonProperty("lastName")
@@ -28,7 +28,7 @@ public final class EndUser implements Serializable {
   @JsonProperty("username")
   private final String username;
 
-  private EndUser(Integer id, String firstName, String lastName, String username) {
+  private EndUser(Long id, String firstName, String lastName, String username) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -36,7 +36,7 @@ public final class EndUser implements Serializable {
   }
 
   @JsonCreator
-  public static EndUser endUser(@JsonProperty("id") Integer id,
+  public static EndUser endUser(@JsonProperty("id") Long id,
                                 @JsonProperty("firstName") String firstName,
                                 @JsonProperty("lastName") String lastName,
                                 @JsonProperty("username") String username) {
@@ -53,7 +53,7 @@ public final class EndUser implements Serializable {
     return new EndUser(user.getId(), user.getFirstName(), user.getLastName(), user.getUserName());
   }
 
-  public int id() {
+  public Long id() {
     return id;
   }
 

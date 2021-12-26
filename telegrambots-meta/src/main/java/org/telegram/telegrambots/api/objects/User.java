@@ -19,7 +19,7 @@ public class User implements BotApiObject {
     private static final String LANGUAGECODE_FIELD = "language_code";
 
     @JsonProperty(ID_FIELD)
-    private Integer id; ///< Unique identifier for this user or bot
+    private Long id; ///< Unique identifier for this user or bot
     @JsonProperty(FIRSTNAME_FIELD)
     private String firstName; ///< User‘s or bot’s first name
     @JsonProperty(ISBOT_FIELD)
@@ -35,7 +35,7 @@ public class User implements BotApiObject {
         super();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

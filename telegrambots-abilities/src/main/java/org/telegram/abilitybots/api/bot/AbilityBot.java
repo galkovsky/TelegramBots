@@ -121,7 +121,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   // Reply registry
   private List<Reply> replies;
 
-  public abstract int creatorId();
+  public abstract Long creatorId();
 
   protected AbilityBot(String botToken, String botUsername, DBContext db, DefaultBotOptions botOptions) {
     super(botOptions);
@@ -150,28 +150,28 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   /**
    * @return the map of ID -> EndUser
    */
-  protected Map<Integer, EndUser> users() {
+  protected Map<Long, EndUser> users() {
     return db.getMap(USERS);
   }
 
   /**
    * @return the map of Username -> ID
    */
-  protected Map<String, Integer> userIds() {
+  protected Map<String, Long> userIds() {
     return db.getMap(USER_ID);
   }
 
   /**
    * @return a blacklist containing all the IDs of the banned users
    */
-  protected Set<Integer> blacklist() {
+  protected Set<Long> blacklist() {
     return db.getSet(BLACKLIST);
   }
 
   /**
    * @return an admin set of all the IDs of bot administrators
    */
-  protected Set<Integer> admins() {
+  protected Set<Long> admins() {
     return db.getSet(ADMINS);
   }
 
@@ -236,7 +236,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
    * @return the user
    */
   protected EndUser getUser(String username) {
-    Integer id = userIds().get(username.toLowerCase());
+      Long id = userIds().get(username.toLowerCase());
     if (id == null) {
       throw new IllegalStateException(format("Could not find ID corresponding to username [%s]", username));
     }
@@ -250,7 +250,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
    * @param id the id of the required user
    * @return the user
    */
-  protected EndUser getUser(int id) {
+  protected EndUser getUser(Long id) {
     EndUser endUser = users().get(id);
     if (endUser == null) {
       throw new IllegalStateException(format("Could not find user corresponding to id [%d]", id));
@@ -265,7 +265,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
    * @param username the username of the required user
    * @return the id of the user
    */
-  protected int getUserIdSendError(String username, long chatId) {
+  protected Long getUserIdSendError(String username, long chatId) {
     try {
       return getUser(username).id();
     } catch (IllegalStateException ex) {
@@ -398,7 +398,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .input(1)
         .action(ctx -> {
           String username = stripTag(ctx.firstArg());
-          int userId = getUserIdSendError(username, ctx.chatId());
+          Long userId = getUserIdSendError(username, ctx.chatId());
           String bannedUser;
 
           // Protection from abuse
@@ -409,7 +409,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
             bannedUser = addTag(username);
           }
 
-          Set<Integer> blacklist = blacklist();
+          Set<Long> blacklist = blacklist();
           if (blacklist.contains(userId))
             silent.sendMd(format("%s is already *banned*.", escape(bannedUser)), ctx.chatId());
           else {
@@ -434,9 +434,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .input(1)
         .action(ctx -> {
           String username = stripTag(ctx.firstArg());
-          Integer userId = getUserIdSendError(username, ctx.chatId());
+          Long userId = getUserIdSendError(username, ctx.chatId());
 
-          Set<Integer> blacklist = blacklist();
+          Set<Long> blacklist = blacklist();
 
           if (!blacklist.remove(userId))
             silent.sendMd(format("@%s is *not* on the *blacklist*.", escape(username)), ctx.chatId());
@@ -459,9 +459,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .input(1)
         .action(ctx -> {
           String username = stripTag(ctx.firstArg());
-          Integer userId = getUserIdSendError(username, ctx.chatId());
+          Long userId = getUserIdSendError(username, ctx.chatId());
 
-          Set<Integer> admins = admins();
+          Set<Long> admins = admins();
           if (admins.contains(userId))
             silent.sendMd(format("@%s is already an *admin*.", escape(username)), ctx.chatId());
           else {
@@ -483,9 +483,9 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .input(1)
         .action(ctx -> {
           String username = stripTag(ctx.firstArg());
-          Integer userId = getUserIdSendError(username, ctx.chatId());
+          Long userId = getUserIdSendError(username, ctx.chatId());
 
-          Set<Integer> admins = admins();
+          Set<Long> admins = admins();
           if (admins.remove(userId)) {
             silent.sendMd(format("@%s has been *demoted*.", escape(username)), ctx.chatId());
           } else {
@@ -509,8 +509,8 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .input(0)
         .action(ctx -> {
           if (ctx.user().id() == creatorId()) {
-            Set<Integer> admins = admins();
-            int id = creatorId();
+            Set<Long> admins = admins();
+            Long id = creatorId();
             long chatId = ctx.chatId();
 
             if (admins.contains(id))
@@ -603,7 +603,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
   }
 
   boolean checkBlacklist(Update update) {
-    Integer id = AbilityUtils.getUser(update).getId();
+    Long id = AbilityUtils.getUser(update).getId();
 
     return id == creatorId() || !blacklist().contains(id);
   }
@@ -635,7 +635,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
     Update update = trio.a();
     EndUser user = fromUser(AbilityUtils.getUser(update));
     Privacy privacy;
-    int id = user.id();
+    Long id = user.id();
 
     privacy = isCreator(id) ? CREATOR : isAdmin(id) ? ADMIN : isGroupAdmin(update, id)? GROUP_ADMIN : PUBLIC;
 
@@ -647,7 +647,7 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
     return isOk;
   }
 
-  private boolean isGroupAdmin(Update update, int id) {
+  private boolean isGroupAdmin(Update update, Long id) {
     GetChatAdministrators admins = new GetChatAdministrators().setChatId(getChatId(update));
 
     return isGroupUpdate(update) && silent.execute(admins)
@@ -655,11 +655,11 @@ public abstract class AbilityBot extends TelegramLongPollingBot {
         .anyMatch(member -> member.getUser().getId() == id);
   }
 
-  private boolean isCreator(int id) {
+  private boolean isCreator(Long id) {
     return id == creatorId();
   }
 
-  private boolean isAdmin(Integer id) {
+  private boolean isAdmin(Long id) {
     return admins().contains(id);
   }
 

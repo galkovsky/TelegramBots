@@ -32,22 +32,22 @@ public class MapDBContextTest {
 
   @Test
   public void canRecoverDB() {
-    Map<Integer, EndUser> users = db.getMap(USERS);
-    Map<String, Integer> userIds = db.getMap(USER_ID);
+    Map<Long, EndUser> users = db.getMap(USERS);
+    Map<String, Long> userIds = db.getMap(USER_ID);
     users.put(CREATOR.id(), CREATOR);
     users.put(MUSER.id(), MUSER);
     userIds.put(CREATOR.username(), CREATOR.id());
     userIds.put(MUSER.username(), MUSER.id());
 
     db.getSet("AYRE").add(123123);
-    Map<Integer, EndUser> originalUsers = newHashMap(users);
+    Map<Long, EndUser> originalUsers = newHashMap(users);
     String beforeBackupInfo = db.info(USERS);
 
     Object jsonBackup = db.backup();
     db.clear();
     boolean recovered = db.recover(jsonBackup);
 
-    Map<Integer, EndUser> recoveredUsers = db.getMap(USERS);
+    Map<Long, EndUser> recoveredUsers = db.getMap(USERS);
     String afterRecoveryInfo = db.info(USERS);
 
     assertTrue("Could not recover database successfully", recovered);

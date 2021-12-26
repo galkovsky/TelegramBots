@@ -143,7 +143,7 @@ public class TestDeserialization {
         Assert.assertNotNull(forwardFrom);
         Assert.assertEquals("ForwardLastname", forwardFrom.getLastName());
         Assert.assertEquals("ForwardFirstname", forwardFrom.getFirstName());
-        Assert.assertEquals(Integer.valueOf(222222), forwardFrom.getId());
+        Assert.assertEquals(Long.valueOf(222222), forwardFrom.getId());
     }
 
     private void assertPrivateChat(Chat chat) {
@@ -193,7 +193,7 @@ public class TestDeserialization {
 
     private void assertFromUser(User from) {
         Assert.assertNotNull(from);
-        Assert.assertEquals((Integer) 1111111, from.getId());
+        Assert.assertEquals(Long.valueOf("1111111"), from.getId());
         Assert.assertEquals("Test Lastname", from.getLastName());
         Assert.assertEquals("Test Firstname", from.getFirstName());
         Assert.assertEquals("Testusername", from.getUserName());
