@@ -24,7 +24,7 @@ public class Contact implements BotApiObject {
     @JsonProperty(LASTNAME_FIELD)
     private String lastName; ///< Optional. Contact's last name
     @JsonProperty(USERID_FIELD)
-    private Integer userID; ///< Optional. Contact's user identifier in Telegram
+    private Long userID; ///< Optional. Contact's user identifier in Telegram
 
     public Contact() {
         super();
@@ -42,7 +42,7 @@ public class Contact implements BotApiObject {
         return lastName;
     }
 
-    public Integer getUserID() {
+    public Long getUserID() {
         return userID;
     }
 

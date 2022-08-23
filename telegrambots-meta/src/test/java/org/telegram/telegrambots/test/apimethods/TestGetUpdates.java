@@ -24,7 +24,7 @@ public class TestGetUpdates {
     @Before
     public void setUp() throws Exception {
         getUpdates = new GetUpdates();
-        getUpdates.setOffset(15);
+        getUpdates.setOffset(15L);
         getUpdates.setTimeout(50);
         getUpdates.setLimit(100);
     }

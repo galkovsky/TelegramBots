@@ -29,7 +29,7 @@ public class Update implements BotApiObject {
     private static final String PRE_CHECKOUT_QUERY_FIELD = "pre_checkout_query";
 
     @JsonProperty(UPDATEID_FIELD)
-    private Integer updateId;
+    private Long updateId;
     @JsonProperty(MESSAGE_FIELD)
     private Message message; ///< Optional. New incoming message of any kind — text, photo, sticker, etc.
     @JsonProperty(INLINEQUERY_FIELD)
@@ -53,7 +53,7 @@ public class Update implements BotApiObject {
         super();
     }
 
-    public Integer getUpdateId() {
+    public Long getUpdateId() {
         return updateId;
     }
 

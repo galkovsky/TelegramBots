@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 
 /**
  * @author Ruben Bermudez
@@ -138,7 +139,7 @@ public class TestDefaultBotSession {
     }
 
     private Update[] createFakeUpdates(int count) {
-        return IntStream.range(0, count).mapToObj(x -> {
+        return LongStream.range(0L, count).mapToObj(x -> {
             Update mock = Mockito.mock(Update.class);
             Mockito.when(mock.getUpdateId()).thenReturn(x);
             return mock;

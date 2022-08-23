@@ -46,7 +46,7 @@ public class SendInvoice extends BotApiMethod<Message> {
     private static final String PRIVIDER_DATA_FIELD = "provider_data";
 
     @JsonProperty(CHATID_FIELD)
-    private Integer chatId; ///< Unique identifier for the target private chat
+    private Long chatId; ///< Unique identifier for the target private chat
     @JsonProperty(TITLE_FIELD)
     private String title; ///< Product name
     @JsonProperty(DESCRIPTION_FIELD)
@@ -121,7 +121,7 @@ public class SendInvoice extends BotApiMethod<Message> {
      * @param currency 3-letter ISO 4217 currency code
      * @param prices Price breakdown, a list of components
      */
-    public SendInvoice(Integer chatId, String title, String description, String payload, String providerToken,
+    public SendInvoice(Long chatId, String title, String description, String payload, String providerToken,
                        String startParameter, String currency, List<LabeledPrice> prices) {
         this.chatId = checkNotNull(chatId);
         this.title = checkNotNull(title);
@@ -133,11 +133,11 @@ public class SendInvoice extends BotApiMethod<Message> {
         this.prices = checkNotNull(prices);
     }
 
-    public Integer getChatId() {
+    public Long getChatId() {
         return chatId;
     }
 
-    public SendInvoice setChatId(Integer chatId) {
+    public SendInvoice setChatId(Long chatId) {
         this.chatId = checkNotNull(chatId);
         return this;
     }

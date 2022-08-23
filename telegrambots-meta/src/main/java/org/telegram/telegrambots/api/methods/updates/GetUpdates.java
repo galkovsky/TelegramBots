@@ -37,7 +37,7 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
      * All previous updates will forgotten.
      */
     @JsonProperty(OFFSET_FIELD)
-    private Integer offset;
+    private Long offset;
     /**
      * Optional	Limits the number of updates to be retrieved. Values between 1—100 are accepted.
      * Defaults to 100
@@ -66,11 +66,11 @@ public class GetUpdates extends BotApiMethod<ArrayList<Update>>{
         super();
     }
 
-    public Integer getOffset() {
+    public Long getOffset() {
         return offset;
     }
 
-    public GetUpdates setOffset(Integer offset) {
+    public GetUpdates setOffset(Long offset) {
         this.offset = offset;
         return this;
     }

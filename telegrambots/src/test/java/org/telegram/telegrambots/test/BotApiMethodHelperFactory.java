@@ -289,7 +289,7 @@ public final class BotApiMethodHelperFactory {
         prices.add(new LabeledPrice("LABEL", 1000));
 
         return new SendInvoice()
-                .setChatId(12345)
+                .setChatId(12345L)
                 .setTitle("Random title")
                 .setDescription("Random description")
                 .setPayload("Random Payload")

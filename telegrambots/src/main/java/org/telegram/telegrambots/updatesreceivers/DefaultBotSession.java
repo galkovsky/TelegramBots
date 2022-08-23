@@ -53,7 +53,7 @@ public class DefaultBotSession implements BotSession {
     private HandlerThread handlerThread;
     private LongPollingBot callback;
     private String token;
-    private int lastReceivedUpdate = 0;
+    private long lastReceivedUpdate = 0L;
     private DefaultBotOptions options;
     private UpdatesSupplier updatesSupplier;
 
@@ -194,8 +194,8 @@ public class DefaultBotSession implements BotSession {
                                 lastReceivedUpdate = updates.parallelStream()
                                         .map(
                                                 Update::getUpdateId)
-                                        .max(Integer::compareTo)
-                                        .orElse(0);
+                                        .max(Long::compareTo)
+                                        .orElse(0L);
                                 receivedUpdates.addAll(updates);
 
                                 synchronized (receivedUpdates) {
